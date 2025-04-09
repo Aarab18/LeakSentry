@@ -1,16 +1,16 @@
-#importing the required libraries
+# importing the required libraries
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import numpy as np
 import pickle
 
-#initializing the Flask app
+# initializing the Flask app
 app = Flask(__name__)
 
-#enabling CORS to allow requests from frontend
+# enabling CORS to allow requests from frontend
 CORS(app) 
 
-#loading the trained ML model saved as .pkl file
+# loading the trained ML model saved as .pkl file
 MODEL_PATH = "model.pkl"
 try:
     with open(MODEL_PATH, "rb") as file:
@@ -29,18 +29,18 @@ def home():
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
-        #getting JSON data from the request
+        # getting JSON data from the request
         data = request.get_json()
         if not data:
             return jsonify({"error": "No data provided"}), 400
 
-        #validating and extracting all required fields
+        # validating and extracting all required fields
         required_fields = ["Pressure_PSI", "FlowRate_GPM", "Temperature_Cel", "Moisture_Percent", "Acoustic_dB"]
         for field in required_fields:
             if field not in data or data[field] is None:
                 return jsonify({"error": f"Missing field: {field}"}), 400
 
-        #converting input data to numpy array
+        # converting input data to numpy array
         input_features = np.array([[
             float(data["Pressure_PSI"]),
             float(data["FlowRate_GPM"]),
@@ -49,14 +49,26 @@ def predict():
             float(data["Acoustic_dB"]),
         ]])
 
-        #making prediction
+        # making prediction and getting probability
         prediction = model.predict(input_features)
+        probability = float(model.predict_proba(input_features)[0][1])  # Probability of class 1 (Leak)
 
-        #converting to boolean (0 = No Leak, 1 = Leak)
+        # converting to boolean for interpretation (0 = No Leak, 1 = Leak)
         result = bool(prediction[0])
 
-        #returnng result as JSON
-        return jsonify({"leak": result})
+        # returning result, probability, and input values as JSON
+        response = {
+            "leak": result,
+            "probability": probability,
+            "input_values": {
+                "Pressure_PSI": float(data["Pressure_PSI"]),
+                "FlowRate_GPM": float(data["FlowRate_GPM"]),
+                "Temperature_Cel": float(data["Temperature_Cel"]),
+                "Moisture_Percent": float(data["Moisture_Percent"]),
+                "Acoustic_dB": float(data["Acoustic_dB"])
+            }
+        }
+        return jsonify(response)
 
     except ValueError as ve:
         return jsonify({"error": f"Invalid input value: {str(ve)}"}), 400
