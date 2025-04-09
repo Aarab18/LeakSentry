@@ -1,226 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pipe Leakage Detector</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: linear-gradient(to bottom right, #60a5fa, #3730a3);
-            padding: 20px;
-            font-family: Arial, sans-serif;
-        }
-        h1 {
-            color: white;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            font-weight: 800;
-            animation: bounce 2s infinite;
-        }
-        .card {
-            padding: 20px;
-            width: 100%;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
-            border: 1px solid #93c5fd;
-            backdrop-filter: blur(4px);
-        }
-        h2 {
-            text-align: center;
-            color: #1e40af;
-            margin-bottom: 20px;
-            font-weight: 600;
-            font-size: 1.5rem;
-        }
-        .input-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            color: #4b5563;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-        input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #d1d5db;
-            border-radius: 5px;
-            box-sizing: border-box;
-            transition: all 0.2s ease;
-        }
-        input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(to right, #2563eb, #4f46e5);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        button:disabled {
-            background: #9ca3af;
-            cursor: not-allowed;
-        }
-        button:hover:not(:disabled) {
-            background: linear-gradient(to right, #1d4ed8, #4338ca);
-            transform: scale(1.05);
-        }
-        .loading {
-            display: none;
-            text-align: center;
-            margin-top: 15px;
-        }
-        .spinner {
-            width: 32px;
-            height: 32px;
-            border: 4px solid #3b82f6;
-            border-top: 4px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        .result {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 1.25rem;
-            font-weight: 600;
-            animation: fadeIn 0.5s ease-in;
-        }
-        .leak {
-            color: #dc2626;
-        }
-        .no-leak {
-            color: #16a34a;
-        }
-
-        /* Animations */
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-20px);
-            }
-            60% {
-                transform: translateY(-10px);
-            }
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
-</head>
-<body>
-    <h1>Pipe Leakage Detector</h1>
-    <div class="card">
-        <h2>Enter Sensor Data</h2>
-        <div class="input-group">
-            <label>Pressure (PSI)</label>
-            <input type="number" id="Pressure_PSI" placeholder="Enter the Pressure PSI (Per Square Inch)">
-        </div>
-        <div class="input-group">
-            <label>Flow Rate (GPM)</label>
-            <input type="number" id="FlowRate_GPM" placeholder="Enter the FlowRate in GPM (Gallons Per Minute)">
-        </div>
-        <div class="input-group">
-            <label>Temperature (°C)</label>
-            <input type="number" id="Temperature_Cel" placeholder="Enter the Temperature in Celsius">
-        </div>
-        <div class="input-group">
-            <label>Moisture (%)</label>
-            <input type="number" id="Moisture_Percent" placeholder="Enter the Moisture in %">
-        </div>
-        <div class="input-group">
-            <label>Acoustic (dB)</label>
-            <input type="number" id="Acoustic_dB" placeholder="Enter the Acoustics in decibels">
-        </div>
-        <button onclick="handlePredict()">Check for Leak</button>
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-        </div>
-        <div class="result" id="prediction"></div>
-    </div>
-
-    <script>
-        async function handlePredict() {
-            const button = document.querySelector('button');
-            const loading = document.getElementById('loading');
-            const prediction = document.getElementById('prediction');
-
-            // Get input values
-            const inputData = {
-                Pressure_PSI: document.getElementById('Pressure_PSI').value,
-                FlowRate_GPM: document.getElementById('FlowRate_GPM').value,
-                Temperature_Cel: document.getElementById('Temperature_Cel').value,
-                Moisture_Percent: document.getElementById('Moisture_Percent').value,
-                Acoustic_dB: document.getElementById('Acoustic_dB').value
-            };
-
-            // Show loading state
-            button.textContent = 'Detecting...';
-            button.disabled = true;
-            loading.style.display = 'block';
-            prediction.textContent = '';
-
-            try {
-                // Make API call
-                const response = await fetch('http://localhost:5000/predict', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(inputData)
-                });
-                const data = await response.json();
-
-                // Simulate delay and show result
-                setTimeout(() => {
-                    prediction.textContent = data.leak ? 'Leak Detected!' : 'No Leak Detected!';
-                    prediction.className = 'result ' + (data.leak ? 'leak' : 'no-leak');
-                    button.textContent = 'Check for Leak';
-                    button.disabled = false;
-                    loading.style.display = 'none';
-                }, 1000);
-            } catch (error) {
-                console.error('Error:', error);
-                prediction.textContent = 'Error occurred while detecting';
-                prediction.className = 'result leak';
-                button.textContent = 'Check for Leak';
-                button.disabled = false;
-                loading.style.display = 'none';
-            }
-        }
-    </script>
-</body>
-</html> -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -283,20 +60,13 @@
             border: none;
             border-radius: 10px;
             color: white;
-            font-size: 1.1em;
+           clouds: font-size: 1.1em;
             cursor: pointer;
             transition: transform 0.2s;
         }
         button:hover {
             transform: scale(1.05);
         }
-        #result {
-            margin-top: 20px;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-        .leak { color: #d32f2f; }
-        .no-leak { color: #388e3c; }
         .spinner {
             display: none;
             width: 30px;
@@ -341,6 +111,62 @@
             0% { background-position: 0 0; }
             100% { background-position: 1440px 0; }
         }
+        #input-details {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #0277bd;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+            border: 2px solid #4fc3f7;
+            animation: popIn 0.3s ease-out;
+        }
+        .modal-content h3 {
+            margin: 0 0 10px;
+            font-size: 1.5em;
+        }
+        .modal-content.leak h3 { color: #d32f2f; }
+        .modal-content.no-leak h3 { color: #388e3c; }
+        .modal-content p {
+            font-size: 0.9em;
+            color: #0277bd;
+            margin: 5px 0;
+        }
+        .close-btn {
+            margin-top: 15px;
+            padding: 8px 15px;
+            background: linear-gradient(to right, #0288d1, #4fc3f7);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .close-btn:hover {
+            transform: scale(1.05);
+        }
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -370,11 +196,21 @@
         </div>
         <button onclick="predict()">Solve the Mystery!</button>
         <div class="spinner" id="spinner"></div>
-        <div id="result"></div>
+        <div id="input-details"></div>
         <div id="drops" style="display: none; margin-top: 10px;">
             <div class="water-drop"></div>
             <div class="water-drop delay-200"></div>
             <div class="water-drop delay-400"></div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="resultModal">
+        <div class="modal-content" id="modalContent">
+            <h3 id="modalTitle"></h3>
+            <p id="modalProbability"></p>
+            <p id="modalInputs"></p>
+            <button class="close-btn" onclick="closeModal()">Close</button>
         </div>
     </div>
 
@@ -383,10 +219,10 @@
 
         function predict() {
             const spinner = document.getElementById("spinner");
-            const result = document.getElementById("result");
+            const inputDetails = document.getElementById("input-details");
             const drops = document.getElementById("drops");
             spinner.style.display = "block";
-            result.textContent = "";
+            inputDetails.textContent = "";
             drops.style.display = "none";
 
             const data = {
@@ -406,23 +242,63 @@
             .then(data => {
                 setTimeout(() => {
                     spinner.style.display = "none";
+                    const inputs = data.input_values;
+                    const probability = data.probability;
+
+                    // Show modal
+                    const modal = document.getElementById("resultModal");
+                    const modalContent = document.getElementById("modalContent");
+                    const modalTitle = document.getElementById("modalTitle");
+                    const modalProbability = document.getElementById("modalProbability");
+                    const modalInputs = document.getElementById("modalInputs");
+
+                    modalTitle.textContent = data.leak ? "Leak Detected!" : "No Leak Detected!";
+                    modalContent.className = "modal-content " + (data.leak ? "leak" : "no-leak");
+                    modalProbability.textContent = `Leak Probability: ${(probability * 100).toFixed(2)}% (Threshold: 50%)`;
+                    modalInputs.innerHTML = `
+                        Based on:<br>
+                        Pressure: ${inputs.Pressure_PSI} PSI<br>
+                        Flow Rate: ${inputs.FlowRate_GPM} GPM<br>
+                        Temperature: ${inputs.Temperature_Cel} °C<br>
+                        Moisture: ${inputs.Moisture_Percent} %<br>
+                        Acoustic: ${inputs.Acoustic_dB} dB
+                    `;
+                    modal.style.display = "flex";
+
                     if (data.leak) {
-                        result.textContent = "Leak Detected!";
-                        result.className = "leak";
                         drops.style.display = "flex";
                         drops.style.justifyContent = "center";
                         dripSound.play();
-                    } else {
-                        result.textContent = "No Leak Detected!";
-                        result.className = "no-leak";
                     }
+
+                    // Optionally display input details below inputs
+                    inputDetails.innerHTML = `
+                        Based on:<br>
+                        Pressure: ${inputs.Pressure_PSI} PSI<br>
+                        Flow Rate: ${inputs.FlowRate_GPM} GPM<br>
+                        Temperature: ${inputs.Temperature_Cel} °C<br>
+                        Moisture: ${inputs.Moisture_Percent} %<br>
+                        Acoustic: ${inputs.Acoustic_dB} dB<br>
+                        Leak Probability: ${(probability * 100).toFixed(2)}% (Threshold: 50%)
+                    `;
                 }, 1000);
             })
             .catch(error => {
                 spinner.style.display = "none";
-                result.textContent = "Oops! Something went wrong.";
+                const modal = document.getElementById("resultModal");
+                const modalContent = document.getElementById("modalContent");
+                const modalTitle = document.getElementById("modalTitle");
+                modalTitle.textContent = "Oops! Something went wrong.";
+                modalContent.className = "modal-content";
+                document.getElementById("modalProbability").textContent = "";
+                document.getElementById("modalInputs").textContent = "";
+                modal.style.display = "flex";
                 console.error(error);
             });
+        }
+
+        function closeModal() {
+            document.getElementById("resultModal").style.display = "none";
         }
     </script>
 </body>
