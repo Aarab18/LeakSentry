@@ -4,119 +4,174 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pipe Leakage Detective</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
-            padding: 0;
-            height: 100vh;
+            padding: 20px;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(to right, #b3e5fc, #0288d1);
-            font-family: Arial, sans-serif;
-            overflow: hidden;
+            background: linear-gradient(135deg, #b3e5fc, #0277bd);
+            font-family: 'Poppins', sans-serif;
+            overflow-y: auto;
+            position: relative;
         }
         h1 {
-            color: white;
-            font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            animation: bounce 2s infinite;
+            color: #fff;
+            font-size: 3em;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+            animation: pulse 2s infinite;
+            display: flex;
+            align-items: center;
+            margin: 0 0 20px;
+        }
+        h1::before {
+            content: "💧";
+            margin-right: 10px;
+            font-size: 1.2em;
         }
         .card {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            width: 350px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
             text-align: center;
-            border: 2px solid #4fc3f7;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 20px 0;
         }
         .input-group {
-            margin: 10px 0;
+            position: relative;
         }
         label {
-            display: block;
-            font-size: 0.9em;
-            color: #0277bd;
+            font-size: 1em;
+            color: #fff;
+            font-weight: 600;
             margin-bottom: 5px;
+            display: block;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
-        input {
+        input[type="range"] {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #81d4fa;
-            border-radius: 5px;
-            box-sizing: border-box;
-            transition: border 0.3s;
+            -webkit-appearance: none;
+            background: transparent;
         }
-        input:focus {
-            border: 1px solid #0288d1;
-            outline: none;
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 8px;
+            background: #81d4fa;
+            border-radius: 4px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #0288d1;
+            border-radius: 50%;
+            margin-top: -6px;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+        }
+        .input-value {
+            font-size: 0.9em;
+            color: #fff;
+            margin-top: 5px;
         }
         button {
             width: 100%;
-            padding: 12px;
-            background: linear-gradient(to right, #0288d1, #4fc3f7);
+            padding: 15px;
+            background: linear-gradient(90deg, #0288d1, #4fc3f7);
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             color: white;
-           clouds: font-size: 1.1em;
+            font-size: 1.2em;
+            font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
         button:hover {
-            transform: scale(1.05);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(2, 136, 209, 0.5);
         }
-        .spinner {
+        .progress-bar {
             display: none;
-            width: 30px;
-            height: 30px;
-            border: 4px solid #0288d1;
-            border-top: 4px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 10px auto;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
         }
-        .water-drop {
-            width: 15px;
-            height: 15px;
-            background: #00b7ff;
-            border-radius: 50%;
-            margin: 0 5px;
-            animation: drip 1s infinite;
+        .progress {
+            width: 0;
+            height: 100%;
+            background: #4fc3f7;
+            animation: progress 1.5s infinite;
         }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-400 { animation-delay: 0.4s; }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        .water-spill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: none;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .water-spill::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(to bottom, rgba(0, 183, 255, 0.8), transparent);
+            animation: spill 2s infinite;
         }
-        @keyframes drip {
-            0% { transform: translateY(-20px); opacity: 1; }
-            100% { transform: translateY(50px); opacity: 0; }
+        @keyframes spill {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(100%); opacity: 0; }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes progress {
+            0% { width: 0; }
+            50% { width: 100%; }
+            100% { width: 0; }
         }
         .waves {
-            position: absolute;
+            position: fixed;
             bottom: 0;
             width: 100%;
-            height: 100px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.3)" fill-opacity="1" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,138.7C672,128,768,160,864,186.7C960,213,1056,235,1152,213.3C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            height: 200px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.5)" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,138.7C672,128,768,160,864,186.7C960,213,1056,235,1152,213.3C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
             animation: wave 5s infinite linear;
+            z-index: 0;
         }
         @keyframes wave {
             0% { background-position: 0 0; }
             100% { background-position: 1440px 0; }
         }
         #input-details {
-            margin-top: 10px;
+            margin-top: 15px;
             font-size: 0.9em;
-            color: #0277bd;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
         }
-        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -124,87 +179,127 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            overflow-y: auto;
         }
         .modal-content {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            width: 300px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 400px;
             text-align: center;
-            border: 2px solid #4fc3f7;
-            animation: popIn 0.3s ease-out;
+            border: 3px solid #4fc3f7;
+            animation: popIn 0.5s ease-out;
+            margin: 20px 0;
         }
         .modal-content h3 {
-            margin: 0 0 10px;
-            font-size: 1.5em;
+            margin: 0 0 15px;
+            font-size: 2em;
+            font-weight: 600;
         }
         .modal-content.leak h3 { color: #d32f2f; }
         .modal-content.no-leak h3 { color: #388e3c; }
         .modal-content p {
-            font-size: 0.9em;
+            font-size: 1em;
             color: #0277bd;
-            margin: 5px 0;
+            margin: 10px 0;
         }
         .close-btn {
-            margin-top: 15px;
-            padding: 8px 15px;
-            background: linear-gradient(to right, #0288d1, #4fc3f7);
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: linear-gradient(90deg, #0288d1, #4fc3f7);
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             color: white;
+            font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.3s;
         }
         .close-btn:hover {
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
         @keyframes popIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from { transform: scale(0.6) rotate(-5deg); opacity: 0; }
+            to { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        footer {
+            margin-top: 20px;
+            color: #fff;
+            font-size: 0.8em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 100%;
+        }
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 8s infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 2em; }
+            .card { padding: 20px; max-width: 100%; }
+            label { font-size: 0.9em; }
+            button { font-size: 1em; padding: 12px; }
+            .modal-content { padding: 20px; max-width: 90%; }
+            .modal-content h3 { font-size: 1.5em; }
         }
     </style>
 </head>
 <body>
     <div class="waves"></div>
+    <div class="bubble" style="width: 20px; height: 20px; left: 10%; animation-delay: 0s;"></div>
+    <div class="bubble" style="width: 15px; height: 15px; left: 30%; animation-delay: 2s;"></div>
+    <div class="bubble" style="width: 25px; height: 25px; left: 50%; animation-delay: 4s;"></div>
+    <div class="bubble" style="width: 18px; height: 18px; left: 70%; animation-delay: 6s;"></div>
     <h1>Pipe Leakage Detective</h1>
     <div class="card">
-        <h2>Enter Your Clues!</h2>
-        <div class="input-group">
-            <label>Pressure (PSI)</label>
-            <input type="number" id="Pressure_PSI" placeholder="How strong is the push?">
-        </div>
-        <div class="input-group">
-            <label>Flow Rate (GPM)</label>
-            <input type="number" id="FlowRate_GPM" placeholder="How fast is the water?">
-        </div>
-        <div class="input-group">
-            <label>Temperature (°C)</label>
-            <input type="number" id="Temperature_Cel" placeholder="How hot or cold?">
-        </div>
-        <div class="input-group">
-            <label>Moisture (%)</label>
-            <input type="number" id="Moisture_Percent" placeholder="How wet is it?">
-        </div>
-        <div class="input-group">
-            <label>Acoustic (dB)</label>
-            <input type="number" id="Acoustic_dB" placeholder="How loud is it?">
+        <h2>Adjust Your Clues!</h2>
+        <div class="input-grid">
+            <div class="input-group">
+                <label for="Pressure_PSI">Pressure (PSI)</label>
+                <input type="range" id="Pressure_PSI" min="0" max="1000" value="50" aria-label="Pressure in PSI">
+                <div class="input-value" id="Pressure_PSI_value">50 PSI</div>
+            </div>
+            <div class="input-group">
+                <label for="FlowRate_GPM">Flow Rate (GPM)</label>
+                <input type="range" id="FlowRate_GPM" min="0" max="100" value="10" aria-label="Flow Rate in GPM">
+                <div class="input-value" id="FlowRate_GPM_value">10 GPM</div>
+            </div>
+            <div class="input-group">
+                <label for="Temperature_Cel">Temperature (°C)</label>
+                <input type="range" id="Temperature_Cel" min="-50" max="100" value="25" aria-label="Temperature in Celsius">
+                <div class="input-value" id="Temperature_Cel_value">25 °C</div>
+            </div>
+            <div class="input-group">
+                <label for="Moisture_Percent">Moisture (%)</label>
+                <input type="range" id="Moisture_Percent" min="0" max="100" value="80" aria-label="Moisture Percentage">
+                <div class="input-value" id="Moisture_Percent_value">80 %</div>
+            </div>
+            <div class="input-group">
+                <label for="Acoustic_dB">Acoustic (dB)</label>
+                <input type="range" id="Acoustic_dB" min="0" max="200" value="60" aria-label="Acoustic Level in dB">
+                <div class="input-value" id="Acoustic_dB_value">60 dB</div>
+            </div>
         </div>
         <button onclick="predict()">Solve the Mystery!</button>
-        <div class="spinner" id="spinner"></div>
+        <div class="progress-bar" id="progressBar"><div class="progress"></div></div>
         <div id="input-details"></div>
-        <div id="drops" style="display: none; margin-top: 10px;">
-            <div class="water-drop"></div>
-            <div class="water-drop delay-200"></div>
-            <div class="water-drop delay-400"></div>
-        </div>
+        <div class="water-spill" id="waterSpill"></div>
     </div>
+    <footer>Created by Aarab, Kushagra and Aayush</footer>
 
-    <!-- Modal -->
     <div class="modal" id="resultModal">
         <div class="modal-content" id="modalContent">
             <h3 id="modalTitle"></h3>
@@ -216,82 +311,98 @@
 
     <script>
         const dripSound = new Audio("https://www.soundjay.com/nature/drip-1.mp3");
+        const clickSound = new Audio("https://www.soundjay.com/buttons/button-3.mp3");
 
-        function predict() {
-            const spinner = document.getElementById("spinner");
-            const inputDetails = document.getElementById("input-details");
-            const drops = document.getElementById("drops");
-            spinner.style.display = "block";
-            inputDetails.textContent = "";
-            drops.style.display = "none";
+        document.querySelectorAll("input[type='range']").forEach(slider => {
+            const valueDisplay = document.getElementById(`${slider.id}_value`);
+            slider.addEventListener("input", () => {
+                valueDisplay.textContent = `${slider.value} ${slider.id.includes("PSI") ? "PSI" : slider.id.includes("GPM") ? "GPM" : slider.id.includes("Cel") ? "°C" : slider.id.includes("Percent") ? "%" : "dB"}`;
+                updateInputDetails();
+            });
+        });
 
-            const data = {
+        function updateInputDetails() {
+            const inputs = getInputs();
+            document.getElementById("input-details").innerHTML = `
+                💨 Pressure: ${inputs.Pressure_PSI} PSI<br>
+                🌊 Flow Rate: ${inputs.FlowRate_GPM} GPM<br>
+                🌡️ Temperature: ${inputs.Temperature_Cel} °C<br>
+                💧 Moisture: ${inputs.Moisture_Percent} %<br>
+                🔊 Acoustic: ${inputs.Acoustic_dB} dB
+            `;
+        }
+
+        function getInputs() {
+            return {
                 Pressure_PSI: document.getElementById("Pressure_PSI").value,
                 FlowRate_GPM: document.getElementById("FlowRate_GPM").value,
                 Temperature_Cel: document.getElementById("Temperature_Cel").value,
                 Moisture_Percent: document.getElementById("Moisture_Percent").value,
                 Acoustic_dB: document.getElementById("Acoustic_dB").value,
             };
+        }
+
+        function predict() {
+            clickSound.play();
+            const progressBar = document.getElementById("progressBar");
+            const waterSpill = document.getElementById("waterSpill");
+            progressBar.style.display = "block";
+            waterSpill.style.display = "none";
+
+            const inputs = getInputs();
 
             fetch("http://localhost:5000/predict", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
+                body: JSON.stringify(inputs),
             })
             .then(response => response.json())
             .then(data => {
                 setTimeout(() => {
-                    spinner.style.display = "none";
+                    progressBar.style.display = "none";
                     const inputs = data.input_values;
                     const probability = data.probability;
 
-                    // Show modal
                     const modal = document.getElementById("resultModal");
                     const modalContent = document.getElementById("modalContent");
                     const modalTitle = document.getElementById("modalTitle");
                     const modalProbability = document.getElementById("modalProbability");
                     const modalInputs = document.getElementById("modalInputs");
 
-                    modalTitle.textContent = data.leak ? "Leak Detected!" : "No Leak Detected!";
+                    modalTitle.textContent = data.leak ? "🚨 Leak Detected!" : "✅ No Leak Detected!";
                     modalContent.className = "modal-content " + (data.leak ? "leak" : "no-leak");
                     modalProbability.textContent = `Leak Probability: ${(probability * 100).toFixed(2)}% (Threshold: 50%)`;
                     modalInputs.innerHTML = `
                         Based on:<br>
-                        Pressure: ${inputs.Pressure_PSI} PSI<br>
-                        Flow Rate: ${inputs.FlowRate_GPM} GPM<br>
-                        Temperature: ${inputs.Temperature_Cel} °C<br>
-                        Moisture: ${inputs.Moisture_Percent} %<br>
-                        Acoustic: ${inputs.Acoustic_dB} dB
+                        💨 Pressure: ${inputs.Pressure_PSI} PSI<br>
+                        🌊 Flow Rate: ${inputs.FlowRate_GPM} GPM<br>
+                        🌡️ Temperature: ${inputs.Temperature_Cel} °C<br>
+                        💧 Moisture: ${inputs.Moisture_Percent} %<br>
+                        🔊 Acoustic: ${inputs.Acoustic_dB} dB
+                        ${data.leak ? "<br><em>SMS and phone call alerts initiated!</em>" : ""}
+                        ${data.sms_error ? `<br><em>SMS Error: ${data.sms_error}</em>` : ""}
+                        ${data.call_error ? `<br><em>Call Error: ${data.call_error}</em>` : ""}
+                        ${data.alert ? `<br><em>${data.alert}</em>` : ""}
                     `;
                     modal.style.display = "flex";
 
                     if (data.leak) {
-                        drops.style.display = "flex";
-                        drops.style.justifyContent = "center";
+                        waterSpill.style.display = "block";
                         dripSound.play();
                     }
 
-                    // Optionally display input details below inputs
-                    inputDetails.innerHTML = `
-                        Based on:<br>
-                        Pressure: ${inputs.Pressure_PSI} PSI<br>
-                        Flow Rate: ${inputs.FlowRate_GPM} GPM<br>
-                        Temperature: ${inputs.Temperature_Cel} °C<br>
-                        Moisture: ${inputs.Moisture_Percent} %<br>
-                        Acoustic: ${inputs.Acoustic_dB} dB<br>
-                        Leak Probability: ${(probability * 100).toFixed(2)}% (Threshold: 50%)
-                    `;
-                }, 1000);
+                    updateInputDetails();
+                }, 1500);
             })
             .catch(error => {
-                spinner.style.display = "none";
+                progressBar.style.display = "none";
                 const modal = document.getElementById("resultModal");
                 const modalContent = document.getElementById("modalContent");
                 const modalTitle = document.getElementById("modalTitle");
-                modalTitle.textContent = "Oops! Something went wrong.";
+                modalTitle.textContent = "⚠️ Oops! Something went wrong.";
                 modalContent.className = "modal-content";
-                document.getElementById("modalProbability").textContent = "";
-                document.getElementById("modalInputs").textContent = "";
+                modalProbability.textContent = "";
+                modalInputs.textContent = `Error: ${error.message}`;
                 modal.style.display = "flex";
                 console.error(error);
             });
@@ -299,7 +410,12 @@
 
         function closeModal() {
             document.getElementById("resultModal").style.display = "none";
+            document.getElementById("waterSpill").style.display = "none";
+            dripSound.pause();
+            dripSound.currentTime = 0;
         }
+
+        updateInputDetails();
     </script>
 </body>
 </html>
