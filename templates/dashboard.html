@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow-x: hidden;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - LeakSentry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body style="overflow-x: hidden;">
+    <nav>
+        <div class="container">
+            <div class="logo">LeakSentry</div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/detect">Detect</a></li>
+                <li><a href="/team">Team</a></li>
+                <li><a href="/plans">Plans</a></li>
+                <li><a href="/feedback">Feedback</a></li>
+                <li><a href="/history">History</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="content-card">
+        <h2>Dashboard</h2>
+        <div class="dashboard-stats">
+            <div class="stat">
+                <h3>Total Detections</h3>
+                <p>{{ total_detections }}</p>
+            </div>
+            <div class="stat">
+                <h3>Leaks Detected</h3>
+                <p>{{ leaks_detected }}</p>
+            </div>
+            <div class="stat">
+                <h3>Water Saved</h3>
+                <p>{{ water_saved | round(2) }} liters</p>
+            </div>
+        </div>
+
+        <h2>Recent Detections</h2>
+        <div class="history-grid">
+            {% for detection in recent_detections %}
+            <div class="history-item">
+                <h3>{{ detection.timestamp }}</h3>
+                <p><strong>Leak Detected:</strong> {{ 'Yes' if detection.leak else 'No' }}</p>
+                <p><strong>Probability:</strong> {{ (detection.probability * 100) | round(2) }}%</p>
+                <p><strong>Severity:</strong> {{ detection.severity }}</p>
+            </div>
+            {% else %}
+            <p>No recent detections available.</p>
+            {% endfor %}
+        </div>
+
+        <h2>Severity Distribution</h2>
+        <canvas id="severityChart" style="max-width: 400px; margin: 0 auto;"></canvas>
+
+        <h2>Maintenance Risk</h2>
+        <p>Risk Level: {{ (maintenance_risk * 100) | round(2) }}%</p>
+        <canvas id="maintenanceChart" style="max-width: 400px; margin: 0 auto;"></canvas>
+    </section>
+
+    <footer>
+        <p>© 2025 LeakSentry. Crafted by Aarab, Kushagra, and Aayush.</p>
+    </footer>
+
+    <div class="chatbot-container">
+        <div class="chatbot-toggle" id="chatbotToggle"></div>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">LeakSentry Assistant</div>
+            <div class="chatbot-body" id="chatbotBody">
+                <div class="chatbot-message bot">Hi! I'm here to help with leak detection or answer any questions. What's up?</div>
+            </div>
+            <div class="chatbot-footer">
+                <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Type your message..." aria-label="Chatbot input">
+                <button class="chatbot-send" id="chatbotSend">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/chatbot.js"></script>
+    <script>
+        // Severity Chart
+        new Chart(document.getElementById('severityChart'), {
+            type: 'pie',
+            data: {
+                labels: ['Critical', 'Moderate', 'Low'],
+                datasets: [{
+                    data: [{{ severity_counts['Critical'] }}, {{ severity_counts['Moderate'] }}, {{ severity_counts['Low'] }}],
+                    backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56']
+                }]
+            }
+        });
+
+        // Maintenance Risk Chart
+        new Chart(document.getElementById('maintenanceChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Maintenance Risk'],
+                datasets: [{
+                    label: 'Risk (%)',
+                    data: [{{ (maintenance_risk * 100) | round(2) }}],
+                    backgroundColor: 'orange'
+                }]
+            },
+            options: { scales: { y: { beginAtZero: true, max: 100 } } }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow-x: hidden;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LeakSentry - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body style="overflow-x: hidden;">
+    <nav>
+        <div class="container">
+            <div class="logo">LeakSentry</div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/">Home</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="/detect">Detect</a></li>
+                    <li><a href="/team">Team</a></li>
+                    <li><a href="/plans">Plans</a></li>
+                    <li><a href="/feedback">Feedback</a></li>
+                    <li><a href="/history">History</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <button class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+
+    <section class="content-card hero">
+        <div class="hero-content">
+            <h1>Unleash the Leak Detective</h1>
+            <p>LeakSentry harnesses cutting-edge AI to detect water leaks in real-time, saving water and protecting your infrastructure.</p>
+            <a href="/detect" class="cta-btn" aria-label="Start detecting leaks now">Start Detecting Now</a>
+        </div>
+    </section>
+
+    <section class="content-card">
+        <h2>Why Choose LeakSentry?</h2>
+        <div class="features-grid">
+            <div class="feature-item">
+                <img src="/static/images/real-time.png" alt="Real-time detection icon" class="feature-icon" loading="lazy">
+                <h3>Real-Time Detection</h3>
+                <p>Instantly identify leaks with continuous monitoring of pressure, flow, and more.</p>
+            </div>
+            <div class="feature-item">
+                <img src="/static/images/ai-powered.png" alt="AI-powered analysis icon" class="feature-icon" loading="lazy">
+                <h3>AI-Powered Analysis</h3>
+                <p>Our advanced machine learning model predicts leaks with high accuracy.</p>
+            </div>
+            <div class="feature-item">
+                <img src="/static/images/alerts.png" alt="Instant alerts icon" class="feature-icon" loading="lazy">
+                <h3>Instant Alerts</h3>
+                <p>Receive SMS or call notifications via Twilio when a leak is detected.</p>
+            </div>
+            <div class="feature-item">
+                <img src="/static/images/scalable.png" alt="Scalable solutions icon" class="feature-icon" loading="lazy">
+                <h3>Scalable Solutions</h3>
+                <p>From homes to enterprises, LeakSentry adapts to your needs.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-card">
+        <h2>How LeakSentry Works</h2>
+        <p>Our AI-driven system processes multiple data points to detect leaks with precision.</p>
+        <div class="how-it-works-grid">
+            <div class="step">
+                <h3>Step 1: Data Collection</h3>
+                <p>Sensors measure pressure, flow, temperature, moisture, and acoustics.</p>
+            </div>
+            <div class="step">
+                <h3>Step 2: AI Analysis</h3>
+                <p>Our model evaluates data to predict leak probability.</p>
+            </div>
+            <div class="step">
+                <h3>Step 3: Alerts & Actions</h3>
+                <p>Get instant notifications and recommendations to address leaks.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-card">
+        <h2>What Our Users Say</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-item">
+                <p>“LeakSentry caught a hidden leak in our basement, saving us thousands in repairs!”</p>
+                <h3>– Jane D., Homeowner</h3>
+                <img src="/static/images/home.png" alt="Protected residential home" class="testimonial-image" loading="lazy">
+            </div>
+            <div class="testimonial-item">
+                <p>“The enterprise plan streamlined our water management across multiple facilities.”</p>
+                <h3>– Mark T., Facility Manager</h3>
+                <img src="/static/images/industrial.png" alt="Industrial water pipes" class="testimonial-image" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <section class="content-card water-conservation">
+        <h2>Water Conservation Impact</h2>
+        <p>Thanks to LeakSentry, we've saved <strong id="water-saved">0</strong> gallons of water and counting!</p>
+    </section>
+
+    <section class="content-card mobile-access">
+        <h2>Access on Mobile</h2>
+        <p>Use LeakSentry on your mobile device via your browser—no app required! Scan the QR code to sign up and start detecting leaks on the go.</p>
+        <p style="font-size: 0.9em; color: var(--text);">Tip: Ensure good lighting and hold your phone about a foot away for best results.</p>
+        <img src="/static/images/qr_code.png" alt="QR code to sign up for LeakSentry on mobile" style="width: 200px; height: 200px;" loading="lazy">
+        <p style="font-size: 0.9em; margin-top: 10px;"><a href="/register" class="btn" style="padding: 8px 16px; font-size: 0.9em;">Sign Up Directly</a></p>
+    </section>
+
+    <footer>
+        <img src="/static/images/footer-logo.png" alt="LeakSentry logo" class="footer-logo" loading="lazy">
+        <p>© 2025 LeakSentry. Crafted by Aarab, Kushagra, and Aayush.</p>
+    </footer>
+
+    <div class="chatbot-container">
+        <div class="chatbot-toggle" id="chatbotToggle" aria-label="Toggle chatbot"></div>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">LeakSentry Assistant</div>
+            <div class="chatbot-body" id="chatbotBody">
+                <div class="chatbot-message bot">Hi! I'm here to help with leak detection or answer any questions. What's up?</div>
+            </div>
+            <div class="chatbot-footer">
+                <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Type your message..." aria-label="Chatbot input">
+                <button class="chatbot-send" id="chatbotSend" aria-label="Send chatbot message">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/chatbot.js"></script>
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            themeToggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+        });
+
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('open');
+        });
+
+        // Simulate water saved counter (replace with actual data from backend)
+        const waterSaved = document.getElementById('water-saved');
+        let gallons = 0;
+        setInterval(() => {
+            gallons += 10; // Simulate increment
+            waterSaved.textContent = gallons.toLocaleString();
+        }, 5000);
+    </script>
+</body>
+</html>

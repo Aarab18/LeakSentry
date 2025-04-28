@@ -1,0 +1,4 @@
+1. navbar sahi karna hai
+2. qr code ka kaam sahi karna hai
+3. if further functions are to be added qur kya add kare
+4. colour aur improve karna hai

@@ -1,0 +1,302 @@
+[
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-16T13:35:16.943574",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 10.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 80.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-16T13:35:34.979676",
+    "leak": false,
+    "probability": 0.44,
+    "severity": "None",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 0.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 0.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "No action needed"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-16T13:35:44.741220",
+    "leak": true,
+    "probability": 0.75,
+    "severity": "Moderate",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 0.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 3.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Schedule maintenance within 24 hours"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-16T13:36:33.009153",
+    "leak": true,
+    "probability": 0.58,
+    "severity": "Moderate",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 0.0,
+      "Temperature_Cel": 28.0,
+      "Moisture_Percent": 1.0,
+      "Acoustic_dB": 2.0
+    },
+    "recommendation": "Schedule maintenance within 24 hours"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-16T20:44:07.292004",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 484.0,
+      "FlowRate_GPM": 13.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 14.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-17T14:12:58.140113",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 10.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 80.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-17T14:16:14.680800",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 10.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 30.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-17T14:40:45.284950",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 13.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 20.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-17T14:53:20.100014",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 10.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 80.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-17T15:11:02.358447",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 10.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 80.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-17T15:20:43.978573",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 3.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 5.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-17T15:57:51.095666",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 399.0,
+      "FlowRate_GPM": 15.0,
+      "Temperature_Cel": 52.0,
+      "Moisture_Percent": 34.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-17T16:01:45.444859",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 13.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 60.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-17T16:04:55.737518",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 15.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 24.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-17T16:12:34.025635",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 11.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 80.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-17T16:20:00.500849",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 12.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 49.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-17T21:19:13.924336",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 10.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 80.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-18T11:24:03.727855",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 71.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 64.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-27T15:00:36.560927",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 10.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 80.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-27T23:23:57.275407",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 10.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 80.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  }
+]

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow-x: hidden;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leak Detection - LeakSentry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body style="overflow-x: hidden;">
+    <nav>
+        <div class="container">
+           <div class="logo">LeakSentry</div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="/detect">Detect</a></li>
+                    <li><a href="/team">Team</a></li>
+                    <li><a href="/plans">Plans</a></li>
+                    <li><a href="/feedback">Feedback</a></li>
+                    <li><a href="/history">History</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <main class="card">
+        <h2>Crack the Case</h2>
+        <div class="input-grid">
+            <div class="input-group">
+                <label for="Pressure_PSI" data-tooltip="Pressure in PSI (0-1000)">Pressure (PSI)</label>
+                <input type="range" id="Pressure_PSI" min="0" max="1000" value="50" aria-label="Pressure in PSI">
+                <div class="input-value" id="Pressure_PSI_value">50 PSI</div>
+                <div class="input-error" id="Pressure_PSI_error"></div>
+            </div>
+            <div class="input-group">
+                <label for="FlowRate_GPM" data-tooltip="Flow Rate in GPM (0-100)">Flow Rate (GPM)</label>
+                <input type="range" id="FlowRate_GPM" min="0" max="100" value="10" aria-label="Flow Rate in GPM">
+                <div class="input-value" id="FlowRate_GPM_value">10 GPM</div>
+                <div class="input-error" id="FlowRate_GPM_error"></div>
+            </div>
+            <div class="input-group">
+                <label for="Temperature_Cel" data-tooltip="Temperature in °C (-50 to 100)">Temperature (°C)</label>
+                <input type="range" id="Temperature_Cel" min="-50" max="100" value="25" aria-label="Temperature in Celsius">
+                <div class="input-value" id="Temperature_Cel_value">25 °C</div>
+                <div class="input-error" id="Temperature_Cel_error"></div>
+            </div>
+            <div class="input-group">
+                <label for="Moisture_Percent" data-tooltip="Moisture in % (0-100)">Moisture (%)</label>
+                <input type="range" id="Moisture_Percent" min="0" max="100" value="80" aria-label="Moisture Percentage">
+                <div class="input-value" id="Moisture_Percent_value">80 %</div>
+                <div class="input-error" id="Moisture_Percent_error"></div>
+            </div>
+            <div class="input-group">
+                <label for="Acoustic_dB" data-tooltip="Acoustic Level in dB (0-200)">Acoustic (dB)</label>
+                <input type="range" id="Acoustic_dB" min="0" max="200" value="60" aria-label="Acoustic Level in dB">
+                <div class="input-value" id="Acoustic_dB_value">60 dB</div>
+                <div class="input-error" id="Acoustic_dB_error"></div>
+            </div>
+            <div class="input-group">
+                <label><input type="checkbox" id="demoMode"> Demo Mode</label>
+            </div>
+        </div>
+        <div id="live-probability">Live Leak Probability: --%</div>
+        <button onclick="predict()">Solve the Mystery!</button>
+        <div class="progress-bar" id="progressBar"><div class="progress"></div></div>
+        <div class="spinner" id="spinner"></div>
+        <div class="water-spill" id="waterSpill"></div>
+        <div id="chart-container">
+            <canvas id="probabilityChart" aria-label="Leak Probability Chart"></canvas>
+        </div>
+    </main>
+
+    <div class="modal" id="resultModal">
+        <div class="modal-content" id="modalContent">
+            <h3 id="modalTitle"></h3>
+            <p id="modalProbability"></p>
+            <div id="modalInputs" style="text-align: left;"></div>
+            <p id="modalRecommendation" style="font-weight: 600; color: #0288d1;"></p>
+            <button class="close-btn" onclick="closeModal()">Close Case</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 LeakSentry. Crafted by Aarab, Kushagra, and Aayush.</p>
+    </footer>
+
+    <div class="chatbot-container">
+        <div class="chatbot-toggle" id="chatbotToggle"></div>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">LeakSentry Assistant</div>
+            <div class="chatbot-body" id="chatbotBody">
+                <div class="chatbot-message bot">Hi! I'm here to help with leak detection or answer any questions. What's up?</div>
+            </div>
+            <div class="chatbot-footer">
+                <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Type your message..." aria-label="Chatbot input">
+                <button class="chatbot-send" id="chatbotSend">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/chatbot.js"></script>
+    <script src="/static/js/detect.js"></script>
+</body>
+</html>

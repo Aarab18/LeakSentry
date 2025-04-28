@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow-x: hidden;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Access - LeakSentry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body style="overflow-x: hidden;">
+    <nav>
+        <div class="container">
+            <div class="logo">LeakSentry</div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="/detect">Detect</a></li>
+                    <li><a href="/team">Team</a></li>
+                    <li><a href="/plans">Plans</a></li>
+                    <li><a href="/feedback">Feedback</a></li>
+                    <li><a href="/history">History</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/mobile">Mobile Access</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <section class="content-card">
+        <h2>Scan to Access on Mobile</h2>
+        <img src="/static/images/qr_code.png" alt="Mobile QR Code" style="max-width: 200px;">
+        <p>Scan the QR code with your mobile device to access LeakSentry.</p>
+    </section>
+
+    <footer>
+        <p>© 2025 LeakSentry. Crafted by Aarab, Kushagra, and Aayush.</p>
+    </footer>
+
+    <div class="chatbot-container">
+        <div class="chatbot-toggle" id="chatbotToggle"></div>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">LeakSentry Assistant</div>
+            <div class="chatbot-body" id="chatbotBody">
+                <div class="chatbot-message bot">Hi! I'm here to help with leak detection or answer any questions. What's up?</div>
+            </div>
+            <div class="chatbot-footer">
+                <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Type your message..." aria-label="Chatbot input">
+                <button class="chatbot-send" id="chatbotSend">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/chatbot.js"></script>
+</body>
+</html>
