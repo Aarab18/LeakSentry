@@ -298,5 +298,80 @@
       "Acoustic_dB": 60.0
     },
     "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-29T12:17:03.150325",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 10.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 80.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-29T17:18:16.983048",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 331.0,
+      "FlowRate_GPM": 28.0,
+      "Temperature_Cel": 38.0,
+      "Moisture_Percent": 41.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-29T17:27:03.021929",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 538.0,
+      "FlowRate_GPM": 79.0,
+      "Temperature_Cel": -11.0,
+      "Moisture_Percent": 50.0,
+      "Acoustic_dB": 169.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-04-30T11:59:31.012475",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 10.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 80.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-05-13T16:25:13.318636",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 517.0,
+      "FlowRate_GPM": 34.0,
+      "Temperature_Cel": -7.0,
+      "Moisture_Percent": 19.0,
+      "Acoustic_dB": 130.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
   }
 ]
