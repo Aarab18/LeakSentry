@@ -373,5 +373,35 @@
       "Acoustic_dB": 130.0
     },
     "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-06-15T09:51:15.930852",
+    "leak": true,
+    "probability": 0.85,
+    "severity": "Critical",
+    "inputs": {
+      "Pressure_PSI": 248.0,
+      "FlowRate_GPM": 26.0,
+      "Temperature_Cel": -30.0,
+      "Moisture_Percent": 46.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "Immediate shutdown and emergency repair required"
+  },
+  {
+    "user_id": 1,
+    "timestamp": "2025-06-15T10:10:24.725411",
+    "leak": false,
+    "probability": 0.43,
+    "severity": "None",
+    "inputs": {
+      "Pressure_PSI": 50.0,
+      "FlowRate_GPM": 10.0,
+      "Temperature_Cel": 25.0,
+      "Moisture_Percent": 0.0,
+      "Acoustic_dB": 60.0
+    },
+    "recommendation": "No action needed"
   }
 ]
