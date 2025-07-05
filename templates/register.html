@@ -31,6 +31,9 @@
 
     <main class="card">
         <h2>Register</h2>
+        <div class="demo-option">
+            <button id="demoBtn" class="btn">Try Demo</button>
+        </div>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -74,5 +77,12 @@
     </footer>
 
     <script src="/static/js/common.js"></script>
+    <script>
+        document.getElementById('demoBtn').addEventListener('click', function() {
+            if (confirm('Proceed to login for a demo experience?')) {
+                window.location.href = '/login';
+            }
+        });
+    </script>
 </body>
 </html>
