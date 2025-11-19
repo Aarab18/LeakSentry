@@ -317,14 +317,48 @@ def feedback():
 
 @app.route("/history")
 @login_required
+# def history():
+#     try:
+#         with open(HISTORY_FILE, "r") as f:
+#             history = json.load(f)
+#         user_history = [item for item in history if item.get('user_id') == current_user.id]
+#     except:
+#         user_history = []
+#     return render_template('history.html', history=user_history)
 def history():
     try:
-        with open(HISTORY_FILE, "r") as f:
-            history = json.load(f)
-        user_history = [item for item in history if item.get('user_id') == current_user.id]
-    except:
-        user_history = []
-    return render_template('history.html', history=user_history)
+        # File may not exist
+        if not os.path.exists(HISTORY_FILE):
+            return render_template('history.html', history=[])
+
+        # File may be corrupted or empty
+        try:
+            with open(HISTORY_FILE, "r") as f:
+                content = f.read().strip()
+
+            if not content:
+                history = []
+            else:
+                try:
+                    history = json.loads(content)
+                except Exception:
+                    logging.error("History file corrupted. Resetting.")
+                    history = []
+        except Exception as e:
+            logging.error(f"Failed to read history: {str(e)}")
+            history = []
+
+        # Filter for this user safely
+        user_history = [
+            item for item in history
+            if isinstance(item, dict) and item.get("user_id") == current_user.id
+        ]
+
+        return render_template('history.html', history=user_history)
+
+    except Exception as e:
+        logging.error(f"History route error: {str(e)}")
+        return render_template('history.html', history=[])
 
 @app.route("/dashboard")
 @login_required
