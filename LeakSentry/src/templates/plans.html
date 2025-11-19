@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow-x: hidden;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plans - LeakSentry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body style="overflow-x: hidden;">
+    <nav>
+        <div class="container">
+            <div class="logo">LeakSentry</div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="/detect">Detect</a></li>
+                    <li><a href="/team">Team</a></li>
+                    <li><a href="/plans">Plans</a></li>
+                    <li><a href="/feedback">Feedback</a></li>
+                    <li><a href="/history">History</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <section class="content-card">
+        <h2>Choose Your Plan</h2>
+        <p>Unlock powerful features tailored to your leak detection needs.</p>
+        <div class="subscription-grid">
+            <div class="plan">
+                <h3>Basic</h3>
+                <div class="price">$0/month</div>
+                <ul>
+                    <li>Single user</li>
+                    <li>5 predictions/day</li>
+                    <li>Email support</li>
+                </ul>
+                <a href="/detect" class="btn">Get Started</a> <!-- Changed from /payment?plan=basic to /detect -->
+            </div>
+            <div class="plan">
+                <h3>Pro</h3>
+                <div class="price">$9.99/month</div>
+                <ul>
+                    <li>3 users</li>
+                    <li>Unlimited predictions</li>
+                    <li>SMS & call alerts</li>
+                    <li>Priority support</li>
+                </ul>
+                <a href="/payment?plan=pro" class="btn">Subscribe Now</a>
+            </div>
+            <div class="plan">
+                <h3>Enterprise</h3>
+                <div class="price">$29.99/month</div>
+                <ul>
+                    <li>Unlimited users</li>
+                    <li>Unlimited predictions</li>
+                    <li>Analytics dashboard</li>
+                    <li>API access</li>
+                    <li>24/7 support</li>
+                </ul>
+                <a href="/payment?plan=enterprise" class="btn">Subscribe Now</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 LeakSentry. Crafted by Aarab, Kushagra, and Aayush.</p>
+    </footer>
+
+    <div class="chatbot-container">
+        <div class="chatbot-toggle" id="chatbotToggle"></div>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">LeakSentry Assistant</div>
+            <div class="chatbot-body" id="chatbotBody">
+                <div class="chatbot-message bot">Hi! I'm here to help with leak detection or answer any questions. What's up?</div>
+            </div>
+            <div class="chatbot-footer">
+                <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Type your message..." aria-label="Chatbot input">
+                <button class="chatbot-send" id="chatbotSend">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/chatbot.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeakSentry Dashboard</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+        <nav>
+			<div class="container">
+			   <div class="logo">LeakSentry</div>
+				<ul>
+					<li><a href="/">Home</a></li>
+					{% if current_user.is_authenticated %}
+						<li><a href="/detect">Detect</a></li>
+						<li><a href="/team">Team</a></li>
+						<li><a href="/plans">Plans</a></li>
+						<li><a href="/feedback">Feedback</a></li>
+						<li><a href="/history">History</a></li>
+						<li><a href="/dashboard">Dashboard</a></li>
+						<li><a href="/logout">Logout</a></li>
+					{% else %}
+						<li><a href="/login">Login</a></li>
+						<li><a href="/register">Register</a></li>
+					{% endif %}
+				</ul>
+			</div>
+		</nav>
+    <main>
+        <h1>LeakSentry Dashboard</h1>
+        <section class="metrics">
+            <div class="metric-card">
+                <h3>Total Detections</h3>
+                <p>{{ total_detections }}</p>
+            </div>
+            <div class="metric-card">
+                <h3>Leaks Detected</h3>
+                <p>{{ leaks_detected }}</p>
+            </div>
+            <div class="metric-card">
+                <h3>Water Saved</h3>
+                <p>{{ water_saved | int }} Liters</p>
+            </div>
+        </section>
+        <section class="chart">
+            <h2>Leak Severity Distribution</h2>
+            <canvas id="severityChart"></canvas>
+        </section>
+        <section class="recent-detections">
+            <h2>Recent Detections</h2>
+            {% if recent_detections %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Severity</th>
+                            <th>Probability</th>
+                            <th>Recommendation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for detection in recent_detections %}
+                            <tr>
+                                <td>{{ detection.timestamp }}</td>
+                                <td>{{ detection.severity }}</td>
+                                <td>{{ (detection.probability * 100) | round(2) }}%</td>
+                                <td>{{ detection.recommendation }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No detections yet. Run a detection to see results here!</p>
+            {% endif %}
+        </section>
+        <section class="actions">
+            <h2>Quick Actions</h2>
+            <div class="action-buttons">
+                <a href="{{ url_for('detect') }}" class="btn">Run Detection</a>
+                <a href="{{ url_for('history') }}" class="btn">View Full History</a>
+                <a href="{{ url_for('plans') }}" class="btn">Upgrade Plan</a>
+            </div>
+        </section>
+    </main>
+    <script>
+        // Pass severity counts to JavaScript
+        const severityCounts = {{ severity_counts | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow-x: hidden;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - LeakSentry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body style="overflow-x: hidden;">
+    <nav>
+        <div class="container">
+            <div class="logo">LeakSentry</div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="/detect">Detect</a></li>
+                    <li><a href="/team">Team</a></li>
+                    <li><a href="/plans">Plans</a></li>
+                    <li><a href="/feedback">Feedback</a></li>
+                    <li><a href="/history">History</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <main class="card">
+        <h2>Register</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p class="{{ category }}">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="POST" class="feedback-form">
+            {{ form.hidden_tag() }}
+            <div class="input-group">
+                <label for="email">Email</label>
+                {{ form.email(placeholder="Enter your email", required=True) }}
+            </div>
+            <div class="input-group">
+                <label for="phone">Phone Number</label>
+                {{ form.phone(placeholder="Enter your phone number(with country code)", required=True) }}
+            </div>
+            <div class="input-group">
+                <label for="name">Full Name</label>
+                {{ form.name(placeholder="Enter your full name", required=True) }}
+            </div>
+            <div class="input-group">
+                <label for="dob">Date of Birth</label>
+                {{ form.dob(required=True) }}
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                {{ form.password(placeholder="Enter your password", required=True) }}
+            </div>
+            <div class="input-group">
+                <label for="confirm_password">Confirm Password</label>
+                {{ form.confirm_password(placeholder="Confirm your password", required=True) }}
+            </div>
+            {{ form.submit(class="btn") }}
+        </form>
+        <p>Already have an account? <a href="/login">Login here</a>.</p>
+    </main>
+
+    <footer>
+        <p>© 2025 LeakSentry. Crafted by Aarab, Kushagra, and Aayush.</p>
+    </footer>
+
+    <script src="/static/js/common.js"></script>
+</body>
+</html>
