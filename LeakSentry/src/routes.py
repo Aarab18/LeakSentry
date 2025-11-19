@@ -263,10 +263,15 @@ def predict():
             except Exception as e:
                 response["email_error"] = f"Email failed: {str(e)}"
             alert_timestamps[user_id] = datetime.datetime.now()
-        elif DEBUG_MODE and result:
-            logging.info("Debug mode: Alerts would be sent:")
-            logging.info(f"SMS: {sms_message}")
-            logging.info(f"Call message: {call_message}")
+        # elif DEBUG_MODE and result:
+        #     logging.info("Debug mode: Alerts would be sent:")
+        #     logging.info(f"SMS: {sms_message}")
+        #     logging.info(f"Call message: {call_message}")
+        elif DEBUG_MODE:
+            logging.info("Debug mode: Leak result:", result)
+            if result:
+                logging.info(f"SMS: {sms_message}")
+                logging.info(f"Call message: {call_message}")
         return jsonify(response)
     except Exception as e:
         logging.error(f"Prediction error: {str(e)}")
