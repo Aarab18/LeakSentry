@@ -82,20 +82,22 @@ def create_verify_service():
         raise
 
 def send_email(to_email, subject, body):
-    try:
-        msg = MIMEText(body)
-        msg['Subject'] = subject
-        msg['From'] = SMTP_USERNAME
-        msg['To'] = to_email
-        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
-            server.starttls()
-            server.login(SMTP_USERNAME, SMTP_PASSWORD)
-            server.send_message(msg)
-        logging.info(f"Email sent successfully to {to_email}")
-        return True
-    except Exception as e:
-        logging.error(f"Failed to send email to {to_email}: {str(e)}")
-        return False
+    # try:
+    #     msg = MIMEText(body)
+    #     msg['Subject'] = subject
+    #     msg['From'] = SMTP_USERNAME
+    #     msg['To'] = to_email
+    #     with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+    #         server.starttls()
+    #         server.login(SMTP_USERNAME, SMTP_PASSWORD)
+    #         server.send_message(msg)
+    #     logging.info(f"Email sent successfully to {to_email}")
+    #     return True
+    # except Exception as e:
+    #     logging.error(f"Failed to send email to {to_email}: {str(e)}")
+    #     return False
+    logging.info("Email sending disabled on Render Free Tier.")
+    return False
 
 def twiml_response(message):
     response = VoiceResponse()
